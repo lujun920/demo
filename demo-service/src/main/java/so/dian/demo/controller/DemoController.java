@@ -22,10 +22,11 @@ import so.dian.mofa3.lang.exception.CheckParamException;
 import so.dian.mofa3.lang.exception.CustomCodeException;
 import so.dian.mofa3.lang.exception.ServiceIsNotAvailableException;
 import so.dian.mofa3.lang.exception.ThirdPartyException;
-import so.dian.mofa3.lang.util.JsonUtil;
+import so.dian.mofa3.lang.util.AlarmLog;
 import so.dian.mofa3.template.controller.ControllerCallback;
 
 import java.io.IOException;
+import java.util.List;
 
 /**
  *
@@ -124,14 +125,51 @@ public class DemoController extends BaseController{
     }
 
     @RequestMapping(value = "/adc/{str}")
+    public @ResponseBody Result list(@PathVariable String str) {
+        return template.execute(new ControllerCallback<List<ModModule>>() {
+            @Override
+            public void checkParam() {
+
+            }
+
+            @Override
+            public void buildContext() {
+
+            }
+
+            @Override
+            public List<ModModule> execute() {
+                Page<ModModule> page = PageHelper.offsetPage(0, 10).doSelectPage(() -> modModuleService.listRecord(new ModModule()));
+                return page.getResult();
+            }
+        });
+
+    }
+
+    @RequestMapping(value = "/aabb/update")
     public @ResponseBody
-    String list(@PathVariable String str) {
+    Result update() {
+        return template.execute(new ControllerCallback<Void>() {
+            @Override
+            public void checkParam() {
+                AlarmLog.generalWarning("app warning");
+            }
 
-//        List<ModModule> list =  modModuleService.listRecord(new ModModule());
+            @Override
+            public void buildContext() {
 
-        Page<ModModule> page = PageHelper.offsetPage(0, 3).doSelectPage(() -> modModuleService.listRecord(new ModModule()));
+            }
 
-        return JsonUtil.beanToJson(page.getResult());
+            @Override
+            public Void execute() {
+                ModModule modModule= new ModModule();
+                modModule.setId(33L);
+                modModule.setModuleName("ABC_33");
+                modModuleService.updateRecord(modModule);
+                return null;
+            }
+        });
+
     }
 
     @Autowired

@@ -17,13 +17,13 @@
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
     <java.version>1.8</java.version>
-    <spring-cloud.version>Hoxton.SR2</spring-cloud.version>
-    <mofa.version>1.0.8-SNAPSHOT</mofa.version>
+    <spring-cloud.version>Hoxton.SR5</spring-cloud.version>
+    <mofa.version>1.0.8-RELEASE</mofa.version>
   </properties>
   <parent>
     <groupId>org.springframework.boot</groupId>
     <artifactId>spring-boot-starter-parent</artifactId>
-    <version>2.2.5.RELEASE</version>
+    <version>2.3.1.RELEASE</version>
   </parent>
 
   <!-- 所有声明在dependencies里的依赖都会自动引入，并默认被所有的子项目继承，除非是公共都需要的jar，否则不建议在这里直接引入，因为facade是给接口使用方调用，避免依赖版本冲突 -->

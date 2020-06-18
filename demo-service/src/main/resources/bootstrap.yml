@@ -10,13 +10,13 @@ spring:
     allow-bean-definition-overriding: true
 
 mofa:
-  profiler_time: 10
+  profiler_time: 1
   # 日志输出级别
   logging-level: INFO
   # DB模块配置
   db:
     # sql执行耗时，执行耗时大于该值，输出到文件，单位：ms
-    threshold-times: 1
+    threshold-times: 0
     # 慢sql执行监控阈值，单位：ms
     slow-sql-times: 3000
   # controller 监控aop配置

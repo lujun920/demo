@@ -22,12 +22,15 @@ public class CmsUserTest extends BaseTest {
     @Test
 //    @Transactional
     public void save(){
-        ModModule modModule = new ModModule();
-        modModule.setModuleName("ABC_AA33333");
-        modModule.setModuleCode("AAAA");
-        modModule.setMaxVersion(1);
-        modModule.setMinVersion(1);
-        service.saveRecord(modModule);
+        for(int i = 0; i< 10; i++){
+            ModModule modModule = new ModModule();
+            modModule.setModuleName("ABC_00000"+i);
+            modModule.setModuleCode("AAAA_"+i);
+            modModule.setMaxVersion(1);
+            modModule.setMinVersion(1);
+            service.saveRecord(modModule);
+        }
+
     }
 
 
@@ -36,6 +39,9 @@ public class CmsUserTest extends BaseTest {
         ModModule modModule = new ModModule();
 
         System.out.println(service.listRecord(modModule));
+
+        modModule.setId(33L);
+        System.out.println(service.getRecord(modModule));
     }
 
 }
