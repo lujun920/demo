@@ -2,47 +2,76 @@
 <configuration scan="false" scanPeriod="60 seconds" debug="false">
     <!-- yml配置属性值获取 -->
     <springProperty name="app_name" scope="context" source="spring.application.name"/>
-    <springProperty name="logging-level" scope="context" source="mofa.logging-level"/>
-    <springProperty name="logging-path" scope="context" source="mofa.logging-path"/>
+    <springProperty name="mofa_loggingLevel" scope="context" source="mofa.logging-level"/>
+    <springProperty name="mofa_loggingRoot" scope="context" source="mofa.logging-path"/>
 
     <!-- 应用 app-default.Interceptor-->
     <appender name="APP-DEFAULT-APPENDER" class="ch.qos.logback.core.rolling.RollingFileAppender">
-        <File>${logging-path}/${app_name}/app-default.log</File>
+        <File>${mofa_loggingRoot}/${app_name}/app-default.log</File>
         <!-- 根据时间来制定滚动策略 -->
         <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
-            <FileNamePattern>${logging-path}/${app_name}/app-default.log.%d{yyyy-MM-dd}</FileNamePattern>
+            <FileNamePattern>${mofa_loggingRoot}/${app_name}/app-default.log.%d{yyyy-MM-dd}
+            </FileNamePattern>
             <MaxHistory>7</MaxHistory>
         </rollingPolicy>
         <encoder>
-            <Pattern>%d{yyyy-MM-dd HH:mm:ss.SSS} [%thread] %logger{5} %msg%n</Pattern>
+            <Pattern>
+                %d{yyyy-MM-dd HH:mm:ss.SSS} [%X{x_request_id:-N/A}] [%thread] %logger{5} %msg%n
+            </Pattern>
         </encoder>
     </appender>
 
-    <!-- 应用 mofa-profiler-digest-appender -->
-    <appender name="MOFA-PROFILER-DIGEST-APPENDER" class="ch.qos.logback.core.rolling.RollingFileAppender">
-        <File>${logging-path}/mofa/mofa-profiler-digest.log</File>
+    <!-- 应用 app-warning-appender -->
+    <appender name="APP-ALARM-WARNING-APPENDER"
+              class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <File>${mofa_loggingRoot}/${app_name}/app-warning.log</File>
         <!-- 根据时间来制定滚动策略 -->
         <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
-            <FileNamePattern>${logging-path}/mofa/mofa-profiler-digest.log.%d{yyyy-MM-dd}</FileNamePattern>
+            <FileNamePattern>${mofa_loggingRoot}/${app_name}/app-warning.log.%d{yyyy-MM-dd}
+            </FileNamePattern>
+            <MaxHistory>7</MaxHistory>
+        </rollingPolicy>
+        <encoder>
+            <Pattern>
+                %d{yyyy-MM-dd HH:mm:ss.SSS} [%X{x_request_id:-N/A}] [%thread] %logger{5} %msg%n
+            </Pattern>
+        </encoder>
+    </appender>
+
+
+    <!-- 应用 mofa-profiler-digest-appender -->
+    <appender name="MOFA-PROFILER-DIGEST-APPENDER"
+              class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <File>${mofa_loggingRoot}/${app_name}/mofa/mofa-profiler-digest.log</File>
+        <!-- 根据时间来制定滚动策略 -->
+        <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+            <FileNamePattern>${mofa_loggingRoot}/${app_name}/mofa/mofa-profiler-digest.log.%d{yyyy-MM-dd}
+            </FileNamePattern>
             <MaxHistory>7</MaxHistory>
         </rollingPolicy>
 
         <encoder>
-            <Pattern>%d{yyyy-MM-dd HH:mm:ss.SSS} [%thread] %logger{5} %n%msg%n</Pattern>
+            <Pattern>
+                %d{yyyy-MM-dd HH:mm:ss.SSS} [%X{x_request_id:-N/A}] [%thread] %logger{5} %n%msg%n
+            </Pattern>
         </encoder>
     </appender>
 
     <!-- 应用 mofa-sql-digest-appender -->
-    <appender name="MOFA-SQL-DIGEST-APPENDER" class="ch.qos.logback.core.rolling.RollingFileAppender">
-        <File>${logging-path}/mofa/mofa-sql-digest.log</File>
+    <appender name="MOFA-SQL-DIGEST-APPENDER"
+              class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <File>${mofa_loggingRoot}/${app_name}/mofa/mofa-sql-digest.log</File>
         <!-- 根据时间来制定滚动策略 -->
         <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
-            <FileNamePattern>${logging-path}/mofa/mofa-sql-digest.log.%d{yyyy-MM-dd}</FileNamePattern>
+            <FileNamePattern>${mofa_loggingRoot}/${app_name}/mofa/mofa-sql-digest.log.%d{yyyy-MM-dd}
+            </FileNamePattern>
             <MaxHistory>7</MaxHistory>
         </rollingPolicy>
 
         <encoder>
-            <Pattern>%d{yyyy-MM-dd HH:mm:ss.SSS} [%thread] %logger{5} %msg%n</Pattern>
+            <Pattern>
+                %d{yyyy-MM-dd HH:mm:ss.SSS} [%X{x_request_id:-N/A}] [%thread] %logger{5} %msg%n
+            </Pattern>
         </encoder>
     </appender>
 
@@ -56,20 +85,25 @@
             <!-- 不匹配时的操作：拒绝（不记录） -->
             <onMismatch>DENY</onMismatch>
         </filter>
-        <File>${logging-path}/${app_name}/common-error.log</File>
+        <File>${mofa_loggingRoot}/${app_name}/common-error.log</File>
         <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
-            <FileNamePattern>${logging-path}/${app_name}/common-error.log.%d{yyyy-MM-dd}</FileNamePattern>
+            <FileNamePattern>${mofa_loggingRoot}/${app_name}/common-error.log.%d{yyyy-MM-dd}
+            </FileNamePattern>
             <MaxHistory>7</MaxHistory>
         </rollingPolicy>
         <encoder>
-            <Pattern>%d{yyyy-MM-dd HH:mm:ss.SSS} [%thread] %logger{5} %msg%n</Pattern>
+            <Pattern>
+                %d{yyyy-MM-dd HH:mm:ss.SSS} [%X{x_request_id:-N/A}] [%thread] %logger{5} %msg%n
+            </Pattern>
         </encoder>
     </appender>
 
     <!-- 控制台输出 -->
     <appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">
         <encoder>
-            <pattern>%d{yyyy-MM-dd HH:mm:ss.SSS} [%thread] %-5level %logger{5} %msg%n</pattern>
+            <pattern>
+                %d{yyyy-MM-dd HH:mm:ss.SSS} [%X{x_request_id:-N/A}] [%thread] %-5level %logger{5} %msg%n
+            </pattern>
         </encoder>
     </appender>
 
@@ -80,6 +114,15 @@
         <!-- 添加附加的appender,最多只能添加一个 -->
         <appender-ref ref="APP-DEFAULT-APPENDER"/>
     </appender>
+
+    <!-- app-warning 异步保存 -->
+    <appender name="APP-ALARM-WARNING-ASYNC" class="ch.qos.logback.classic.AsyncAppender">
+        <discardingThreshold>0</discardingThreshold>
+        <queueSize>512</queueSize>
+        <!-- 添加附加的appender,最多只能添加一个 -->
+        <appender-ref ref="APP-ALARM-WARNING-APPENDER"/>
+    </appender>
+
 
     <!-- mofa-Profiler 异步保存 -->
     <appender name="MOFA-PROFILER-ASYNC" class="ch.qos.logback.classic.AsyncAppender">
@@ -105,29 +148,35 @@
         <appender-ref ref="ERROR-APPENDER"/>
     </appender>
 
+    <!-- 监控内容警报日志 -->
+    <logger name="ALARM_WARNING" additivity="false">
+        <appender-ref ref="APP-ALARM-WARNING-ASYNC"/>
+        <appender-ref ref="STDOUT"/>
+    </logger>
+
     <!-- 性能监控日志-->
     <logger name="MOFA_PROFILER_DIGEST" additivity="false">
-        <level value="${logging-level}"/>
+        <level value="${mofa_loggingLevel}"/>
         <appender-ref ref="MOFA-PROFILER-ASYNC"/>
         <appender-ref ref="STDOUT"/>
     </logger>
 
     <!-- sql执行监控日志-->
     <logger name="MOFA_SQL_DIGEST" additivity="false">
-        <level value="${logging-level}"/>
+        <level value="${mofa_loggingLevel}"/>
         <appender-ref ref="MOFA-SQL-ASYNC"/>
     </logger>
 
     <!-- 默认的日志，即其他logger没有涵盖的日志 -->
     <logger name="so.dian.demo" additivity="false">
-        <level value="${logging-level}"/>
+        <level value="${mofa_loggingLevel}"/>
         <appender-ref ref="APP-DEFAULT-ASYNC"/>
         <appender-ref ref="MOFA-ERROR-ASYNC"/>
         <appender-ref ref="STDOUT"/>
     </logger>
 
     <!-- 应用根日志-->
-    <root level="${logging-level}">
+    <root level="${mofa_loggingLevel}">
         <!-- appender referenced after it is defined -->
         <appender-ref ref="APP-DEFAULT-ASYNC"/>
         <appender-ref ref="MOFA-ERROR-ASYNC"/>

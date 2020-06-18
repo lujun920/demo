@@ -41,6 +41,7 @@ hikari:
 
 cache:
   redis:
+    model: single
     address: redis://127.0.0.1:6379
     password: ''
     # 默认缓存有效期：30天
@@ -48,7 +49,7 @@ cache:
     pool-config:
       min-idle: 10
       pool-size: 32
-      connect-timeout: 15000
+      connect-timeout: 5000
       max-wait-timeout: 10000
       retry-attempts: 3
       retry-interval: 1000
