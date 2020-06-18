@@ -1,0 +1,44 @@
+server:
+  port: 8080
+
+spring:
+  application:
+    name: demo
+  profiles:
+    active: local
+  main:
+    allow-bean-definition-overriding: true
+
+mofa:
+  profiler_time: 10
+  # 日志输出级别
+  logging-level: INFO
+  # DB模块配置
+  db:
+    # sql执行耗时，执行耗时大于该值，输出到文件，单位：ms
+    threshold-times: 1
+    # 慢sql执行监控阈值，单位：ms
+    slow-sql-times: 3000
+  # controller 监控aop配置
+  pointcut:
+    profiler: execution(* so.dian.demo..*Controller.*(..))
+
+---
+# local环境配置
+spring:
+  profiles: local
+mofa:
+  logging-path: /Users/Shared/home/admin/logs
+---
+# dev环境配置
+spring:
+  profiles: dev
+mofa:
+  logging-path: /home/admin/logs
+---
+# real环境配置
+spring:
+  profiles: real
+mofa:
+  logging-path: /home/admin/logs
+

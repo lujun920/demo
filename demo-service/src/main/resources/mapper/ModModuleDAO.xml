@@ -1,0 +1,130 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="so.dian.demo.dao.ModModuleDAO">
+  <resultMap id="BaseResultMap" type="so.dian.demo.dao.model.ModModule">
+    <id column="id" property="id" />
+    <!-- 组件名称 -->
+    <result column="module_name" property="moduleName" />
+    <!-- 组件code -->
+    <result column="module_code" property="moduleCode" />
+    <!-- 组件描述 -->
+    <result column="module_desc" property="moduleDesc" />
+    <!-- 组件最低支持版本 -->
+    <result column="min_version" property="minVersion" />
+    <!-- 组件最高支持版本 -->
+    <result column="max_version" property="maxVersion" />
+    <!-- 逻辑删除0 未删除 1 已删除 -->
+    <result column="deleted" property="deleted" />
+    <!-- 创建时间 -->
+    <result column="create_time" property="createTime" />
+    <!-- 更新时间 -->
+    <result column="update_time" property="updateTime" />
+  </resultMap>
+  
+  <!-- ============ WHERE条件组装 ============ -->
+  <sql id="Example_Where_Clause">
+    <where>
+      <if test="id != null">
+        id = #{id}
+      </if>
+      <if test="moduleName != null">
+        AND module_name = #{moduleName}
+      </if>
+      <if test="moduleCode != null">
+        AND module_code = #{moduleCode}
+      </if>
+      <if test="moduleDesc != null">
+        AND module_desc = #{moduleDesc}
+      </if>
+      <if test="minVersion != null">
+        AND min_version = #{minVersion}
+      </if>
+      <if test="maxVersion != null">
+        AND max_version = #{maxVersion}
+      </if>
+      <if test="deleted != null">
+        AND deleted = #{deleted}
+      </if>
+      <if test="createTime != null">
+        AND create_time = #{createTime}
+      </if>
+      <if test="updateTime != null">
+        AND update_time = #{updateTime}
+      </if>
+    </where>
+  </sql>
+  
+  <!-- ============ 表基础字段 ============ -->
+  <sql id="Base_Column_List">
+    id, module_name, module_code, module_desc, min_version, max_version,
+    deleted, create_time, update_time
+  </sql>
+  
+  <!-- ============ listRecord 列表查询 ============ -->
+  <select id="listRecord" parameterType="so.dian.demo.dao.model.ModModule" resultMap="BaseResultMap">
+    SELECT
+    <include refid="Base_Column_List" />
+    FROM mod_module
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  
+  <!-- ============ getRecord 单条查询 ============ -->
+  <select id="getRecord" parameterType="so.dian.demo.dao.model.ModModule" resultMap="BaseResultMap">
+    SELECT 
+    <include refid="Base_Column_List" />
+    FROM mod_module
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <!-- 不要删除、不要删除、不要删除 -->
+    LIMIT 2
+  </select>
+  
+  <!-- ============ saveRecord 单条插入 ============ -->
+  <insert id="saveRecord" parameterType="so.dian.demo.dao.model.ModModule">
+    INSERT INTO mod_module (module_name, module_code, module_desc, min_version,
+      max_version, deleted, create_time, update_time)
+    VALUES (#{moduleName}, #{moduleCode}, #{moduleDesc}, #{minVersion},
+      #{maxVersion}, #{deleted}, #{createTime}, #{updateTime})
+  </insert>
+  
+  <!-- ============ removeRecord 逻辑删除 ============ -->
+  <update id="removeRecord" parameterType="so.dian.demo.dao.model.ModModule">
+    UPDATE mod_module SET deleted = 1 WHERE id = #{id}
+  </update>
+  
+  <!-- ============ updateRecord 更新by 主键 ============ -->
+  <update id="updateRecord" parameterType="so.dian.demo.dao.model.ModModule">
+    UPDATE mod_module
+    <set>
+      <if test="moduleName != null">
+        module_name = #{moduleName},
+      </if>
+      <if test="moduleCode != null">
+        module_code = #{moduleCode},
+      </if>
+
+      <if test="moduleDesc != null">
+        module_desc = #{moduleDesc},
+      </if>
+      <if test="minVersion != null">
+        min_version = #{minVersion},
+      </if>
+      <if test="maxVersion != null">
+        max_version = #{maxVersion},
+      </if>
+      <if test="deleted != null">
+        deleted = #{deleted},
+      </if>
+      <if test="createTime != null">
+        create_time = #{createTime},
+      </if>
+      <if test="updateTime != null">
+        update_time = #{updateTime},
+      </if>
+    </set>
+    WHERE id = #{id}
+  </update>
+</mapper>

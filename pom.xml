@@ -1,0 +1,213 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+  <groupId>so.dian.demo</groupId>
+  <artifactId>demo</artifactId>
+  <packaging>pom</packaging>
+  <version>1.0-SNAPSHOT</version>
+  <name>demo</name>
+  <url>http://maven.apache.org</url>
+
+  <modules>
+    <module>demo-facade</module>
+    <module>demo-service</module>
+  </modules>
+
+  <properties>
+    <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+    <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
+    <java.version>1.8</java.version>
+    <spring-cloud.version>Hoxton.SR2</spring-cloud.version>
+    <mofa.version>1.0.4-Alpha</mofa.version>
+  </properties>
+  <parent>
+    <groupId>org.springframework.boot</groupId>
+    <artifactId>spring-boot-starter-parent</artifactId>
+    <version>2.2.5.RELEASE</version>
+  </parent>
+
+  <!-- 所有声明在dependencies里的依赖都会自动引入，并默认被所有的子项目继承，除非是公共都需要的jar，否则不建议在这里直接引入，因为facade是给接口使用方调用，避免依赖版本冲突 -->
+  <dependencies>
+
+  </dependencies>
+
+  <!-- dependencyManagement里只是声明依赖，并不实现引入，因此子项目需要显式的声明需要用的依赖 -->
+  <dependencyManagement>
+    <dependencies>
+      <!-- ==============mofa start================ -->
+      <dependency>
+        <groupId>so.dian.mofa3</groupId>
+        <artifactId>cache-starter</artifactId>
+        <version>${mofa.version}</version>
+      </dependency>
+
+      <dependency>
+        <groupId>so.dian.mofa3</groupId>
+        <artifactId>common-lang</artifactId>
+        <version>${mofa.version}</version>
+      </dependency>
+
+      <dependency>
+        <groupId>so.dian.mofa3</groupId>
+        <artifactId>common-template</artifactId>
+        <version>${mofa.version}</version>
+      </dependency>
+
+      <dependency>
+        <groupId>so.dian.mofa3</groupId>
+        <artifactId>db-starter</artifactId>
+        <version>${mofa.version}</version>
+      </dependency>
+
+      <dependency>
+        <groupId>so.dian.mofa3</groupId>
+        <artifactId>log-starter</artifactId>
+        <version>${mofa.version}</version>
+      </dependency>
+
+      <dependency>
+        <groupId>so.dian.mofa3</groupId>
+        <artifactId>common-client</artifactId>
+        <version>${mofa.version}</version>
+      </dependency>
+
+      <dependency>
+        <groupId>org.mybatis.spring.boot</groupId>
+        <artifactId>mybatis-spring-boot-starter</artifactId>
+        <version>2.1.1</version>
+      </dependency>
+
+      <!-- lib-->
+      <dependency>
+        <groupId>mysql</groupId>
+        <artifactId>mysql-connector-java</artifactId>
+        <version>8.0.18</version>
+      </dependency>
+
+      <dependency>
+        <groupId>org.redisson</groupId>
+        <artifactId>redisson</artifactId>
+        <version>3.11.6</version>
+      </dependency>
+
+      <dependency>
+        <groupId>com.google.guava</groupId>
+        <artifactId>guava</artifactId>
+        <version>23.0</version>
+      </dependency>
+
+      <dependency>
+        <groupId>com.github.pagehelper</groupId>
+        <artifactId>pagehelper</artifactId>
+        <version>5.1.10</version>
+      </dependency>
+
+      <dependency>
+        <groupId>org.projectlombok</groupId>
+        <artifactId>lombok</artifactId>
+        <version>1.18.10</version>
+        <scope>provided</scope>
+      </dependency>
+
+      <dependency>
+        <groupId>io.github.openfeign</groupId>
+        <artifactId>feign-okhttp</artifactId>
+        <version>10.7.4</version>
+      </dependency>
+
+      <!--============ 测试依赖，删除后清理相关代码 ============-->
+
+
+      <!--============ 测试依赖，删除后清理相关代码 ============-->
+
+    </dependencies>
+  </dependencyManagement>
+
+  <distributionManagement>
+    <repository>
+      <id>releases</id>
+      <name>Nexus Release Repository</name>
+      <url>http://maven.dian.so/nexus/content/repositories/releases/</url>
+    </repository>
+    <snapshotRepository>
+      <id>snapshots</id>
+      <name>Nexus Snapshot Repository</name>
+      <url>http://maven.dian.so/nexus/content/repositories/snapshots/</url>
+    </snapshotRepository>
+  </distributionManagement>
+
+
+  <build>
+    <plugins>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-pmd-plugin</artifactId>
+        <version>3.8</version>
+        <configuration>
+          <rulesets>
+            <skip>true</skip>
+            <ruleset>rulesets/java/ali-comment.xml</ruleset>
+            <ruleset>rulesets/java/ali-concurrent.xml</ruleset>
+            <ruleset>rulesets/java/ali-constant.xml</ruleset>
+            <ruleset>rulesets/java/ali-exception.xml</ruleset>
+            <ruleset>rulesets/java/ali-flowcontrol.xml</ruleset>
+            <ruleset>rulesets/java/ali-naming.xml</ruleset>
+            <ruleset>rulesets/java/ali-oop.xml</ruleset>
+            <ruleset>rulesets/java/ali-orm.xml</ruleset>
+            <ruleset>rulesets/java/ali-other.xml</ruleset>
+            <ruleset>rulesets/java/ali-set.xml</ruleset>
+          </rulesets>
+          <printFailingErrors>true</printFailingErrors>
+        </configuration>
+        <executions>
+          <execution>
+            <goals>
+              <goal>check</goal>
+            </goals>
+          </execution>
+        </executions>
+        <dependencies>
+          <dependency>
+            <groupId>com.alibaba.p3c</groupId>
+            <artifactId>p3c-pmd</artifactId>
+            <version>1.3.0</version>
+          </dependency>
+        </dependencies>
+      </plugin>
+
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-surefire-plugin</artifactId>
+        <version>2.22.2</version>
+        <configuration>
+          <skipTests>true</skipTests>
+        </configuration>
+      </plugin>
+      <!-- 打包源码上传插件 -->
+      <plugin>
+        <artifactId>maven-source-plugin</artifactId>
+        <version>3.2.1</version>
+        <configuration>
+          <attach>true</attach>
+        </configuration>
+        <executions>
+          <execution>
+            <phase>compile</phase>
+            <goals>
+              <goal>jar</goal>
+            </goals>
+          </execution>
+        </executions>
+      </plugin>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-compiler-plugin</artifactId>
+        <configuration>
+          <source>${java.version}</source>
+          <target>${java.version}</target>
+        </configuration>
+      </plugin>
+    </plugins>
+  </build>
+
+</project>

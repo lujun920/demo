@@ -1,0 +1,55 @@
+spring:
+  application:
+    name: demo-local
+
+# feign使用okhttp通讯
+feign:
+  okhttp:
+    enabled: true
+
+eureka:
+  instance:
+    prefer-ip-address: true
+  client:
+    service-url:
+      defaultZone: http://eureka.springcloud.cn/eureka/
+
+hikari:
+  datasource:
+    mysql:
+      type: com.zaxxer.hikari.HikariDataSource
+      driver-class-name: com.mysql.cj.jdbc.Driver
+      url: jdbc:mysql://127.0.0.1:3306/test?serverTimezone=Asia/Shanghai&characterEncoding=utf-8&useSSL=false
+      user-name: root
+      password: 123456
+      # 下面为连接池的补充设置，应用到上面所有数据源中
+      # 连接池名称，用于日志、监控
+      pool-name: ${spring.application.name}-MYSQL-HAKARI-POOL
+      # 连接池中维护最小连接数量
+      minimum-idle: 5
+      # 连接池最大连接数
+      maximum-pool-size: 30
+      # 空闲连接存活最大时间，默认值：10分钟(单位：ms)
+      idle-timeout: 300000
+      # 控制从池返回的连接的默认自动提交行为，默认值：true
+      auto-commit: true
+      # 连接池的最长生命周期，值0表示无限生命周期，默认值：30分钟(单位：ms)
+      max-lifetime: 1800000
+      # 数据库连接超时时间，默认值：30秒(单位：ms)，配置低于250，重置为默认值
+      connection-timeout: 30000
+      connection-test-query: SELECT 1
+
+cache:
+  redis:
+    address: redis://127.0.0.1:6379
+    password: ''
+    # 默认缓存有效期：30天
+    expire-time: 30
+    pool-config:
+      min-idle: 10
+      pool-size: 32
+      connect-timeout: 15000
+      max-wait-timeout: 10000
+      retry-attempts: 3
+      retry-interval: 1000
+
